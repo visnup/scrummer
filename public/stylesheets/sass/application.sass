@@ -1,0 +1,58 @@
+body, input
+  :font 14pt georgia, serif
+
+input
+  :padding 4px
+
+#page.index-index
+  :padding 20px 40px
+  li#template
+    :display none
+  h1, h2, h3
+    :margin-bottom 0px
+    :color #333
+  table.date
+    :position absolute
+    :right 40px
+    :text-align center
+    :border-collapse collapse
+    td
+      :padding 4px
+    tr:first-child
+      :background-color #339
+      :border solid 1px #006
+      :color #fff
+      :font-size 12pt
+      a
+        :color #fff
+        :text-decoration none
+    tr:last-child
+      :border solid 1px #999
+      td
+        :padding 10px
+  table.tasks
+    :width 100%
+    td
+      :vertical-align top
+      :width 33%
+      ul
+        :list-style none
+        :padding 0px
+        :margin 0.5em
+        li
+          label.done
+            :text-decoration line-through
+          form
+            :display inline
+          a.destroy
+            :visibility hidden
+          &:hover a.destroy
+            :visibility visible
+      form.new
+        input
+          :visibility hidden
+          :width 80%
+          &:focus
+            :visibility visible
+        &:hover input
+          :visibility visible
