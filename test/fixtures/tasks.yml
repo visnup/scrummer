@@ -2,12 +2,12 @@
 
 one:
   person_id: 1
-  type: MyString
+  kind: MyString
   body: MyText
   done: false
 
 two:
   person_id: 1
-  type: MyString
+  kind: MyString
   body: MyText
   done: false

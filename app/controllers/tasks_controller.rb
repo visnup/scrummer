@@ -2,7 +2,11 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.xml
   def index
-    @tasks = Task.all
+    @date = params[:date] ? Date.parse(params[:date]) : Time.zone.today
+    srand @date.to_time.to_i
+
+    @people = Person.active.shuffle
+    @tasks = Task.on(@date)
 
     respond_to do |format|
       format.html # index.html.erb

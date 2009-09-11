@@ -1,26 +1,53 @@
-<h1>Listing tasks</h1>
-
-<table>
-  <tr>
-    <th>Person</th>
-    <th>Type</th>
-    <th>Body</th>
-    <th>Done</th>
-  </tr>
-
-<% @tasks.each do |task| %>
-  <tr>
-    <td><%=h task.person_id %></td>
-    <td><%=h task.type %></td>
-    <td><%=h task.body %></td>
-    <td><%=h task.done %></td>
-    <td><%= link_to 'Show', task %></td>
-    <td><%= link_to 'Edit', edit_task_path(task) %></td>
-    <td><%= link_to 'Destroy', task, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<% content_for :head do %>
+  <script type="text/javascript">
+    S.index(<%= @tasks.to_json %>);
+  </script>
 <% end %>
+
+<div id="status" style="display: none;"></div>
+
+<div id="date"></div>
+<%= link_to 'Home', root_path %>
+<%= link_to 'People', people_path %>
+
+<li id="template">
+  <input type="checkbox" />
+  <label></label>
+  <a class="edit" href="#"></a>
+  <a class="destroy" href="#"></a>
+</li>
+
+<table class="tasks">
+  <% @people.each do |p| %>
+    <tr><td colspan="3"><h1><%= p.name %></h1></td></tr>
+    <tr id="<%= p.id %>">
+      <td>
+        <h3>Week</h3>
+        <ul class="week"></ul>
+        <hr/>
+        <% form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f| %>
+          <%= f.hidden_field :kind, :value => 'week' %>
+          <%= f.text_field :body %>
+        <% end %>
+      </td>
+      <td>
+        <h3>Yesterday</h3>
+        <ul class="yesterday"></ul>
+        <hr/>
+        <% form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f| %>
+          <%= f.hidden_field :kind, :value => 'yesterday' %>
+          <%= f.text_field :body %>
+        <% end %>
+      </td>
+      <td>
+        <h3>Today</h3>
+        <ul class="today"></ul>
+        <hr/>
+        <% form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f| %>
+          <%= f.hidden_field :kind, :value => 'today' %>
+          <%= f.text_field :body %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New task', new_task_path %>
