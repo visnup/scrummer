@@ -6,6 +6,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.json { render :json => @tasks }
       format.xml  { render :xml => @tasks }
     end
   end
@@ -17,6 +18,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.json { render :json => @task }
       format.xml  { render :xml => @task }
     end
   end
@@ -28,6 +30,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
+      format.json { render :json => @task }
       format.xml  { render :xml => @task }
     end
   end
@@ -66,9 +69,11 @@ class TasksController < ApplicationController
       if @task.update_attributes(params[:task])
         flash[:notice] = 'Task was successfully updated.'
         format.html { redirect_to(@task) }
+        format.json { head :ok }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
+        format.json { render :json => @task.errors, :status => :unprocessable_entity }
         format.xml  { render :xml => @task.errors, :status => :unprocessable_entity }
       end
     end
@@ -82,6 +87,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(tasks_url) }
+      format.json { head :ok }
       format.xml  { head :ok }
     end
   end
