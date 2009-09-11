@@ -1,5 +1,9 @@
+!medium = 14pt
+!small = 10pt
+!tiny = 7pt
+
 body, input
-  :font 14pt georgia, serif
+  :font #{!medium} georgia, serif
 
 input
   :padding 4px
@@ -14,7 +18,7 @@ input
   #date
     :position absolute
     :right 40px
-    :font-size 7pt
+    :font-size = !tiny
   table.tasks
     :width 100%
     td
@@ -25,13 +29,23 @@ input
         :padding 0px
         :margin 0.5em
         li
-          label.done
-            :text-decoration line-through
+          :margin 0.4em 0px
+          label
+            :cursor move
+            &.done
+              :text-decoration line-through
           form
             :display inline
-          a.destroy
+          a
+            :font-size = !small
             :visibility hidden
-          &:hover a.destroy
+            :padding 0px 8px
+            :background url('/javascripts/jquery-ui/css/smoothness/images/ui-icons_2e83ff_256x240.png') no-repeat
+            &.edit
+              :background-position -64px #{-112px - 2px}
+            &.destroy
+              :background-position -80px #{-128px - 2px}
+          &:hover a
             :visibility visible
       form.new
         input

@@ -1,86 +1,6 @@
 <% content_for :head do %>
   <script type="text/javascript">
-    var create = function(form) {
-      var url = form.attr('action');
-      $.post(url, form.serialize()); // TODO queue
-    };
-
-    var update = function(li) {
-      var li = $(li).closest('li');  // make sure we have the li
-      var id = li.data('id');
-    };
-
-    var destroy = function(li) {
-    };
-
-    var task = function(html) {
-      var li = $('li#template').clone(true).removeAttr('id');
-      li.children('label').html(html);
-
-      return li;
-    };
-
-    $(document).ready(function() {
-      // check for done
-      $('li :checkbox').click(function(e) {
-        var c = $(e.currentTarget);
-        c.next('label').toggleClass('done', c.attr('checked'));
-
-        update(c);
-      });
-
-      // edit in place
-      $('li label').click(function(e) {
-        var label = $(e.currentTarget).hide();
-        var input = $('<input />').val($.trim(label.text()));
-        var form = $('<form>').append(input);
-
-        var done = function(e) {
-          label.html(input.val()).show();
-          form.remove();
-          update(label);
-          return false;
-        };
-        input.blur(done);
-        form.submit(done);
-
-        label.after(form);
-        input.focus();
-      });
-
-      // destroy
-      $('li a.destroy').click(function(e) {
-        var x = $(e.currentTarget);
-        x.parent().remove();
-
-        destroy(x);
-
-        return false;
-      });
-
-      // new
-      $('form.new').submit(function(e) {
-        var form = $(e.currentTarget);
-        create(form);
-
-        var ul = form.prev('ul'),
-            input = form.children(':text');
-        ul.append(task(input.val()));
-        input.val('');
-
-        return false;
-      });
-
-      var tasks = <%= @tasks.to_json %>;
-      $.each(tasks, function(i, t) {
-        t = t.task;
-        var ul = $('tr#' + t.person_id + ' ul.' + t.kind);
-        ul.append(task(t.body));
-      });
-
-      // datepicker
-      $('#date').datepicker();
-    });
+    S.index(<%= @tasks.to_json %>);
   </script>
 <% end %>
 
@@ -91,7 +11,8 @@
 <li id="template">
   <input type="checkbox" />
   <label></label>
-  <a class="destroy" href="#">x</a>
+  <a class="edit" href="#"></a>
+  <a class="destroy" href="#"></a>
 </li>
 
 <table class="tasks">
