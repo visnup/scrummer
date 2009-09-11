@@ -10,6 +10,9 @@ input
 
 #page.index-index
   :padding 20px 40px
+  #status
+    :position fixed
+    :top 0px
   li#template
     :display none
   h1, h2, h3
@@ -26,8 +29,8 @@ input
       :width 33%
       ul
         :list-style none
-        :padding 0px
-        :margin 0.5em
+        :padding 5px 0px
+        :margin 0.5em 0px
         li
           :margin 0.4em 0px
           label
@@ -47,6 +50,11 @@ input
               :background-position -80px #{-128px - 2px}
           &:hover a
             :visibility visible
+      hr
+        :margin 0px
+        :border none
+        :border-top solid 1px #ccc
+        :width 20px
       form.new
         input
           :visibility hidden

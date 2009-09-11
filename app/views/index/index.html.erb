@@ -4,6 +4,8 @@
   </script>
 <% end %>
 
+<div id="status" style="display: none;"></div>
+
 <div id="date"></div>
 <%= link_to 'Home', root_path %>
 <%= link_to 'People', people_path %>
@@ -22,6 +24,7 @@
       <td>
         <h3>Week</h3>
         <ul class="week"></ul>
+        <hr/>
         <% form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f| %>
           <%= f.hidden_field :kind, :value => 'week' %>
           <%= f.text_field :body %>
@@ -30,6 +33,7 @@
       <td>
         <h3>Yesterday</h3>
         <ul class="yesterday"></ul>
+        <hr/>
         <% form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f| %>
           <%= f.hidden_field :kind, :value => 'yesterday' %>
           <%= f.text_field :body %>
@@ -38,6 +42,7 @@
       <td>
         <h3>Today</h3>
         <ul class="today"></ul>
+        <hr/>
         <% form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f| %>
           <%= f.hidden_field :kind, :value => 'today' %>
           <%= f.text_field :body %>

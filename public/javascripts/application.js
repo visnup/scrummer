@@ -1,13 +1,28 @@
 var S = {
-  create: function(form) {
+  status: function(message) {
+    var st = $('#status');
+    if (message) {
+      st.text(message).css('left', ($(document).width()-st.width())/2).fadeIn();
+    } else {
+      st.fadeOut(function() { $(this).text(''); });
+    }
+  },
+
+  create: function(form, li) {
     var url = form.attr('action');
-    $.post(url, form.serialize()); // TODO queue
+    $.post(url, form.serialize(), function(t) {
+      li.data('task', t.task);
+    }, 'json');
   },
 
   update: function(li) {
-    var li = $(li).closest('li');  // make sure we have the li
-    var id = li.data('id');
-    //$.post('/tasks/' + id + '.json', { _method: 'put' });
+    li = $(li).closest('li');
+    var id = li.data('task').id;
+    var params = {
+      'task[body]': li.children('label').text(),
+      'task[done]': li.children(':checkbox').attr('checked')
+    };
+    $.post('/tasks/' + id + '.json', $.extend(params, { _method: 'put' }));
   },
 
   destroy: function(li) {
@@ -19,6 +34,10 @@ var S = {
   task: function(t) {
     var li = $('li#template').clone(true).removeAttr('id');
     li.children('label').html(t.body);
+    if (t.done) {
+      li.children(':checkbox').attr('checked', true);
+      li.children('label').addClass('done');
+    }
     li.data('task', t);
 
     return li;
@@ -26,6 +45,20 @@ var S = {
 
   index: function(tasks) {
     $(document).ready(function() {
+      $('#status').
+        ajaxError(function() {
+          this.error = true;
+          S.status('Error');
+        }).
+        ajaxStart(function() {
+          if (!this.error)
+            S.status('Saving');
+        }).
+        ajaxStop(function() {
+          if (!this.error)
+            S.status();
+        });
+
       // check for done
       $('li :checkbox').click(function(e) {
         var c = $(e.currentTarget);
@@ -70,18 +103,23 @@ var S = {
       // new
       $('form.new').submit(function(e) {
         var form = $(e.currentTarget);
-        S.create(form);
+        var input = form.children(':text');
+        var li = S.task({ body: input.val() });
 
-        var ul = form.prev('ul'),
-            input = form.children(':text');
-        ul.append(S.task({ body: input.val() }));
+        S.create(form, li);
+
+        form.prev('ul').append(li);
         input.val('');
 
         return false;
       });
 
       // sortable
-      $('ul').sortable({ connectWith: 'ul' });
+      $('ul').sortable({
+        connectWith: 'ul',
+        update: function(e, ui) {
+        }
+      });
 
       $.each(tasks, function(i, t) {
         t = t.task;
