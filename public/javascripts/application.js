@@ -44,7 +44,7 @@ var S = {
   },
 
   index: function(tasks) {
-    $(document).ready(function() {
+    var ajaxStatus = function() {
       $('#status').
         ajaxError(function() {
           this.error = true;
@@ -58,7 +58,22 @@ var S = {
           if (!this.error)
             S.status();
         });
+    };
 
+    var sortables = function() {
+      $('ul').sortable({
+        connectWith: 'ul',
+        update: function(e, ui) {
+        }
+      });
+    };
+
+    var datepicker = function() {
+      // datepicker
+      $('#date').datepicker();
+    };
+
+    var events = function() {
       // check for done
       $('li :checkbox').click(function(e) {
         var c = $(e.currentTarget);
@@ -108,27 +123,25 @@ var S = {
 
         S.create(form, li);
 
-        form.prev('ul').append(li);
+        form.siblings('ul').append(li);
         input.val('');
 
         return false;
       });
+    };
 
-      // sortable
-      $('ul').sortable({
-        connectWith: 'ul',
-        update: function(e, ui) {
-        }
-      });
+    $(document).ready(function() {
+      ajaxStatus();
+      sortables();
+      datepicker();
+      events();
 
+      // initialize
       $.each(tasks, function(i, t) {
         t = t.task;
         var ul = $('tr#' + t.person_id + ' ul.' + t.kind);
         ul.append(S.task(t));
       });
-
-      // datepicker
-      $('#date').datepicker();
     });
   }
 };
