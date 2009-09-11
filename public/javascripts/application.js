@@ -69,7 +69,6 @@ var S = {
     };
 
     var datepicker = function() {
-      // datepicker
       $('#date').datepicker();
     };
 
