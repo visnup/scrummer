@@ -77,23 +77,16 @@
         var ul = $('tr#' + t.person_id + ' ul.' + t.kind);
         ul.append(task(t.body));
       });
+
+      // datepicker
+      $('#date').datepicker();
     });
   </script>
 <% end %>
 
+<div id="date"></div>
 <%= link_to 'Home', root_path %>
 <%= link_to 'People', people_path %>
-
-<table class="date">
-  <tr>
-    <td><%= link_to '&lt;', :date => @date.yesterday %></td>
-    <td><%= @date.strftime '%a' %></td>
-    <td><%= link_to '&gt;', :date => @date.tomorrow %></td>
-  </tr>
-  <tr>
-    <td colspan="3"><%= @date.strftime '%b<br/>%e' %></td>
-  </tr>
-</table>
 
 <li id="template">
   <input type="checkbox" />
