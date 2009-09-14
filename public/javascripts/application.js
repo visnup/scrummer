@@ -1,15 +1,7 @@
 var S = {
-  status: function(message) {
-    var st = $('#status');
-    if (message) {
-      st.text(message).css('left', ($(document).width()-st.width())/2).fadeIn();
-    } else {
-      st.fadeOut(function() { $(this).text(''); });
-    }
-  },
-
   create: function(form, li) {
     var url = form.attr('action');
+    li.data('task', 'waiting');
     $.post(url, form.serialize(), function(t) {
       li.data('task', t.task);
     }, 'json');
@@ -17,7 +9,6 @@ var S = {
 
   update: function(li) {
     li = $(li).closest('li');
-    var id = li.data('task').id;
     var params = {
       'task[person_id]': li.parent().data('person_id'),
       'task[kind]': li.parent().data('kind'),
@@ -25,13 +16,28 @@ var S = {
       'task[done]': li.children(':checkbox').attr('checked'),
       'task[position]': li.prevAll('li').length
     };
-    $.post('/tasks/' + id + '.json', $.extend(params, { _method: 'put' }));
+    if (li.data('task')) {
+      if (li.data('task') === 'waiting') {
+        alert('conflict');
+        return;
+      }
+      $.post('/tasks/' + li.data('task').id + '.json',
+        $.extend(params, { _method: 'put' }));
+    } else {
+      params['task[day]'] = $('form input#task_day').val();
+      li.data('task', 'waiting');
+      $.post('/tasks.json', params, function(t) {
+        li.data('task', t.task);
+        li.removeClass('old');
+      }, 'json');
+    }
   },
 
   destroy: function(li) {
     li = $(li).closest('li');
-    var id = li.data('task').id;
-    $.post('/tasks/' + id + '.json', { _method: 'delete' });
+    if (li.hasClass('old')) return;
+    $.post('/tasks/' + li.data('task').id + '.json',
+      { _method: 'delete' });
   },
 
   task: function(t) {
@@ -46,7 +52,7 @@ var S = {
     return li;
   },
 
-  index: function(tasks) {
+  index: function(tasks, last) {
     var ajaxStatus = function() {
       $('#status').
         ajaxError(function() {
@@ -156,6 +162,22 @@ var S = {
         var ul = $('tr#' + t.person_id + ' ul.' + t.kind);
         ul.append(S.task(t));
       });
+
+      // missing yesterday tasks
+      $.each(last, function(i, t) {
+        t = t.task;
+        var ul = $('tr#' + t.person_id + ' ul.yesterday');
+        ul.append(S.task(t).addClass('old').removeData('task'));
+      });
     });
+  },
+
+  status: function(message) {
+    var st = $('#status');
+    if (message) {
+      st.text(message).css('left', ($(document).width()-st.width())/2).fadeIn();
+    } else {
+      st.fadeOut(function() { $(this).text(''); });
+    }
   }
 };

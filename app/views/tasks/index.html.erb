@@ -1,6 +1,6 @@
 <% content_for :head do %>
   <script type="text/javascript">
-    S.index(<%= @tasks.to_json %>);
+    S.index(<%= @tasks.to_json %>, <%= @empty.to_json %>);
   </script>
 <% end %>
 

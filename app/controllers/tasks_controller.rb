@@ -7,6 +7,11 @@ class TasksController < ApplicationController
 
     @people = Person.active.shuffle
     @tasks = Task.on(@date)
+    yesterday_tasks = @tasks.select { |t| t.kind == 'yesterday' }
+    @empty = (@people - yesterday_tasks.collect(&:person)).map do |p|
+      d = p.tasks.kind('today').before(@date).maximum('day')
+      p.tasks.kind('today').on(d)
+    end.flatten
 
     respond_to do |format|
       format.html # index.html.erb
