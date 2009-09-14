@@ -1,13 +1,25 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  person_id: 1
-  kind: MyString
-  body: MyText
+  person: one
+  kind: week
+  body: one
   done: false
+  position: 0
+  day: <%= Date.today %>
 
 two:
-  person_id: 1
-  kind: MyString
-  body: MyText
+  person: one
+  kind: week
+  body: two
   done: false
+  position: 1
+  day: <%= Date.today %>
+
+three:
+  person: one
+  kind: week
+  body: three
+  done: false
+  position: 2
+  day: <%= Date.today %>

@@ -19,8 +19,11 @@ var S = {
     li = $(li).closest('li');
     var id = li.data('task').id;
     var params = {
+      'task[person_id]': li.parent().data('person_id'),
+      'task[kind]': li.parent().data('kind'),
       'task[body]': li.children('label').text(),
-      'task[done]': li.children(':checkbox').attr('checked')
+      'task[done]': li.children(':checkbox').attr('checked'),
+      'task[position]': li.prevAll('li').length
     };
     $.post('/tasks/' + id + '.json', $.extend(params, { _method: 'put' }));
   },
@@ -61,11 +64,18 @@ var S = {
     };
 
     var sortables = function() {
-      $('ul').sortable({
-        connectWith: 'ul',
-        update: function(e, ui) {
-        }
-      });
+      $('ul')
+        .each(function(i) {
+          $(this)
+            .data('kind', this.className)
+            .data('person_id', $(this).closest('tr').get(0).id);
+        })
+        .sortable({
+          connectWith: 'ul',
+          update: function(e, ui) {
+            S.update(ui.item);
+          }
+        });
     };
 
     var datepicker = function() {

@@ -23,7 +23,8 @@ ActiveRecord::Schema.define(:version => 20090907022658) do
     t.string   "kind"
     t.text     "body"
     t.boolean  "done",       :default => false, :null => false
-    t.date     "created_on"
+    t.integer  "position",   :default => 0,     :null => false
+    t.date     "day"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

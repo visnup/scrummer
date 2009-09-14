@@ -5,7 +5,8 @@ class CreateTasks < ActiveRecord::Migration
       t.string :kind
       t.text :body
       t.boolean :done, :null => false, :default => false
-      t.date :created_on
+      t.integer :position, :null => false, :default => 0
+      t.date :day
 
       t.timestamps
     end
