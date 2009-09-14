@@ -10,7 +10,9 @@ input
   :padding 4px
 
 a:link, a:visited
-  :color #2e83ff
+  :color #3d80b3
+a:hover
+  :color #2694e8
 
 #page.tasks-index
   :background-color #fff
@@ -57,11 +59,13 @@ a:link, a:visited
             :font-size = !small
             :visibility hidden
             :padding 0px 8px
-            :background url('/javascripts/jquery-ui/css/smoothness/images/ui-icons_2e83ff_256x240.png') no-repeat
+            :background url('/javascripts/jquery-ui/css/custom-theme/images/ui-icons_3d80b3_256x240.png') no-repeat
             &.edit
               :background-position -64px #{-112px - 2px}
             &.destroy
               :background-position -80px #{-128px - 2px}
+            &:hover
+              :background-image url('/javascripts/jquery-ui/css/custom-theme/images/ui-icons_2694e8_256x240.png')
           &:hover a
             :visibility visible
           &.old
