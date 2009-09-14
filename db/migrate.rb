@@ -11,7 +11,7 @@ from.query 'select * from people' do |rs|
 end
 
 tasks = to.prepare 'insert into tasks (person_id, kind, body, done, position, day, created_at, updated_at) values (:person_id, :kind, :body, :done, :position, :day, :created_at, :updated_at)'
-from.query 'select * from lists order by created_at desc' do |rs|
+from.query 'select * from lists group by person_id, kind, `on`' do |rs|
   rs.each do |r|
     list = Hash[rs.columns.zip(r)]
     items = list['body'].split(/\n?\* */).reject(&:blank?)
