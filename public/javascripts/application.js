@@ -79,7 +79,12 @@ var S = {
     };
 
     var datepicker = function() {
-      $('#date').datepicker();
+      $('#date').datepicker({
+        defaultDate: new Date($('form input#task_day').val().replace(/-/g,'/')),
+        onSelect: function(dateText, inst) {
+          window.location = '/?date=' + dateText;
+        }
+      });
     };
 
     var events = function() {
