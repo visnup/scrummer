@@ -10,14 +10,18 @@ class Task < ActiveRecord::Base
       :order => '`position` ASC' }
   }
 
-  before_create :append_to_end
+  before_create :insert_in_list
   before_update :move_in_list
   after_destroy :remove_from_list
 
   private
-    def append_to_end
-      max = person.tasks.kind(kind).on(day).maximum('position') || -1
-      self.position = max + 1
+    def insert_in_list
+      list = person.tasks.kind(kind).on(day)
+      if position
+        list.update_all 'position = position + 1', ['position >= ?', position]
+      else
+        self.position = (list.maximum('position') || -1) + 1
+      end
     end
 
     def remove_from_list

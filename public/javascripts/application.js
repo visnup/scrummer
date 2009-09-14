@@ -79,7 +79,21 @@ var S = {
         .sortable({
           connectWith: 'ul',
           update: function(e, ui) {
-            S.update(ui.item);
+            if (ui.sender)  return;
+
+            if (e.metaKey || e.ctrlKey) {
+              var copy = ui.item.clone(true);
+              var prev = ui.item.prev('li');
+              if (prev.length > 0)
+                prev.after(copy);
+              else
+                ui.item.parent().prepend(copy);
+
+              $(this).sortable('cancel');
+              S.update(copy);
+            } else {
+              S.update(ui.item);
+            }
           }
         });
     };
