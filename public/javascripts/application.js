@@ -28,14 +28,14 @@ var S = {
       li.data('task', 'waiting');
       $.post('/tasks.json', params, function(t) {
         li.data('task', t.task);
-        li.removeClass('old');
+        li.removeClass('ui-state-disabled');
       }, 'json');
     }
   },
 
   destroy: function(li) {
     li = $(li).closest('li');
-    if (li.hasClass('old')) return;
+    if (li.hasClass('ui-state-disabled')) return;
     $.post('/tasks/' + li.data('task').id + '.json',
       { _method: 'delete' });
   },
@@ -184,7 +184,7 @@ var S = {
       $.each(last, function(i, t) {
         t = t.task;
         var ul = $('tr#' + t.person_id + ' ul.yesterday');
-        ul.append(S.task(t).addClass('old').removeData('task'));
+        ul.append(S.task(t).addClass('ui-state-disabled').removeData('task'));
       });
     });
   },
