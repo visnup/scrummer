@@ -4,12 +4,21 @@
 
 body, input
   :font #{!medium} georgia, serif
+  :background #efefef url('/images/bg.jpg') repeat-x
 
 input
   :padding 4px
 
+a:link, a:visited
+  :color #2e83ff
+
 #page.tasks-index
-  :padding 20px 40px
+  :background-color #fff
+  :padding 20px
+  :margin 10px 20px
+  :border solid 1px #ccc
+  :box-shadow #ccc 0px 0px 10px
+  :-webkit-border-radius 3px
   #status
     :position fixed
     :top 5px
@@ -20,7 +29,9 @@ input
     :display none
   h1, h2, h3
     :margin-bottom 0px
-    :color #333
+    :color #555
+  h1
+    :border-bottom solid 1px #ccc
   #date
     :position absolute
     :right 40px
@@ -53,6 +64,8 @@ input
               :background-position -80px #{-128px - 2px}
           &:hover a
             :visibility visible
+          &.old
+            :color #999
       hr
         :margin 0px
         :border none
