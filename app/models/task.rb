@@ -7,7 +7,7 @@ class Task < ActiveRecord::Base
   }
   named_scope :on, lambda { |date|
     { :conditions => [ 'date(day) = ?', date ],
-      :order => '`position` ASC' }
+      :order => 'position ASC' }
   }
 
   before_create :insert_in_list
