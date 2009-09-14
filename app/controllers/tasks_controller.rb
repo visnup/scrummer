@@ -5,7 +5,7 @@ class TasksController < ApplicationController
     @date = params[:date] ? Date.parse(params[:date]) : Time.zone.today
     srand @date.to_time.to_i
 
-    @people = Person.active.shuffle
+    @people = Person.active.sort_by { rand }
     @tasks = Task.on(@date)
     yesterday_tasks = @tasks.select { |t| t.kind == 'yesterday' }
     @empty = (@people - yesterday_tasks.collect(&:person)).map do |p|
