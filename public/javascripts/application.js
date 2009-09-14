@@ -133,8 +133,11 @@ var S = {
 
         return false;
       };
-      $('li a.edit').click(edit);
       $('li label').dblclick(edit);
+      $('li a.edit').click(edit)
+        .addClass('ui-icon ui-icon-pencil')
+        .hover(function() { $(this).wrap('<span class="ui-state-hover">'); },
+               function() { $(this).parent().replaceWith(this); });
 
       // destroy
       $('li a.destroy').click(function(e) {
@@ -144,7 +147,10 @@ var S = {
         x.parent().remove();
 
         return false;
-      });
+      })
+        .addClass('ui-icon ui-icon-close')
+        .hover(function() { $(this).wrap('<span class="ui-state-hover">'); },
+               function() { $(this).parent().replaceWith(this); });
 
       // new
       $('form.new').submit(function(e) {
@@ -189,7 +195,7 @@ var S = {
     if (message) {
       error = error || false;
       st.text(message)
-        .toggleClass('error', error)
+        .toggleClass('ui-state-error', error)
         .css('left', ($(document).width()-st.width())/2)
         .data('error', error)
         .fadeIn();
