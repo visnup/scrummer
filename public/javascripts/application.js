@@ -18,7 +18,7 @@ var S = {
     };
     if (li.data('task')) {
       if (li.data('task') === 'waiting') {
-        alert('conflict');
+        S.status('Conflict', true);
         return;
       }
       $.post('/tasks/' + li.data('task').id + '.json',
@@ -56,16 +56,13 @@ var S = {
     var ajaxStatus = function() {
       $('#status').
         ajaxError(function() {
-          this.error = true;
-          S.status('Error');
+          S.status('Error', true);
         }).
         ajaxStart(function() {
-          if (!this.error)
-            S.status('Saving');
+          S.status('Saving');
         }).
         ajaxStop(function() {
-          if (!this.error)
-            S.status();
+          S.status();
         });
     };
 
@@ -186,10 +183,16 @@ var S = {
     });
   },
 
-  status: function(message) {
+  status: function(message, error) {
     var st = $('#status');
+    if (st.data('error')) return;
     if (message) {
-      st.text(message).css('left', ($(document).width()-st.width())/2).fadeIn();
+      error = error || false;
+      st.text(message)
+        .toggleClass('error', error)
+        .css('left', ($(document).width()-st.width())/2)
+        .data('error', error)
+        .fadeIn();
     } else {
       st.fadeOut(function() { $(this).text(''); });
     }
