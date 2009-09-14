@@ -56,11 +56,13 @@ a:hover
           .ui-state-hover
             :border none
             :background none
-          .ui-icon
+          .links
             :visibility hidden
-            :display inline-block
-            :height 0.8em
-          &:hover .ui-icon
+            :position absolute
+            :margin-left 1ex
+            .ui-icon
+              :display inline-block
+          &:hover .links
             :visibility visible
           &.old
             :color #999
