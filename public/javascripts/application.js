@@ -1,8 +1,39 @@
+jQuery.ajaxQueue = function(o){
+  var q = jQuery([jQuery.ajaxQueue]),
+      _old = o.complete;
+  o.complete = function(){
+    if ( _old ) _old.apply( this, arguments );
+    q.dequeue("ajax");
+  };
+
+  q.queue("ajax", function(){
+    jQuery.ajax( o );
+  });
+
+  if (q.queue("ajax").length === 1)
+    q.dequeue("ajax");
+};
+
 var S = {
+  post: function( url, data, callback, type ) {
+    if ( jQuery.isFunction( data ) ) {
+      callback = data;
+      data = {};
+    }
+
+    return $.ajaxQueue({
+      type: "POST",
+      url: url,
+      data: data,
+      success: callback,
+      dataType: type
+    });
+  },
+
   create: function(form, li) {
     var url = form.attr('action');
     li.data('task', 'waiting');
-    $.post(url, form.serialize(), function(t) {
+    S.post(url, form.serialize(), function(t) {
       li.data('task', t.task);
     }, 'json');
   },
@@ -21,12 +52,12 @@ var S = {
         S.status('Conflict', true);
         return;
       }
-      $.post('/tasks/' + li.data('task').id + '.json',
+      S.post('/tasks/' + li.data('task').id + '.json',
         $.extend(params, { _method: 'put' }));
     } else {
       params['task[day]'] = $('form input#task_day').val();
       li.data('task', 'waiting');
-      $.post('/tasks.json', params, function(t) {
+      S.post('/tasks.json', params, function(t) {
         li.data('task', t.task);
         li.removeClass('ui-state-disabled');
       }, 'json');
@@ -36,7 +67,7 @@ var S = {
   destroy: function(li) {
     li = $(li).closest('li');
     if (li.hasClass('ui-state-disabled')) return;
-    $.post('/tasks/' + li.data('task').id + '.json',
+    S.post('/tasks/' + li.data('task').id + '.json',
       { _method: 'delete' });
   },
 
@@ -115,7 +146,7 @@ var S = {
 
       // edit in place
       var edit = function(e) {
-        var label = $(e.currentTarget).parent().children('label').hide();
+        var label = $(e.currentTarget).closest('li').children('label').hide();
         var input = $('<input />').val($.trim(label.text()));
         var form = $('<form>').append(input);
 
@@ -144,7 +175,7 @@ var S = {
         var x = $(e.currentTarget);
         S.destroy(x);
 
-        x.parent().remove();
+        x.closest('li').remove();
 
         return false;
       })
