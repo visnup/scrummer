@@ -4,8 +4,11 @@
   <title>Scrummer</title>
   <%= stylesheet_link_tag '/javascripts/jquery-ui/css/custom-theme/jquery-ui-1.7.2.custom.css', :media => :all %>
   <%= stylesheet_link_tag 'application', :media => :all %>
-  <%# javascript_include_tag 'jquery-ui/js/jquery-1.3.2.min', 'jquery-ui/js/jquery-ui-1.7.2.custom.min', 'application', :cache => true %>
-  <%= javascript_include_tag 'jquery-ui/development-bundle/jquery-1.3.2', 'jquery-ui/development-bundle/ui/jquery-ui-1.7.2.custom', 'application', :cache => true %>
+  <% if Rails.env.production? %>
+    <%= javascript_include_tag 'jquery-ui/js/jquery-1.3.2.min', 'jquery-ui/js/jquery-ui-1.7.2.custom.min', 'application', :cache => true %>
+  <% else %>
+    <%= javascript_include_tag 'jquery-ui/development-bundle/jquery-1.3.2', 'jquery-ui/development-bundle/ui/jquery-ui-1.7.2.custom', 'application', :cache => true %>
+  <% end %>
   <%= yield :head %>
 </head>
 <body>
