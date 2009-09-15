@@ -17,6 +17,7 @@ var S = {
       var params = {
         'task[person_id]': li.parent().data('person_id'),
         'task[kind]': li.parent().data('kind'),
+        'task[day]': li.closest('td').find('form input#task_day').val(),
         'task[body]': li.children('label').text(),
         'task[done]': li.children(':checkbox').attr('checked'),
         'task[position]': li.prevAll('li').length
@@ -26,7 +27,6 @@ var S = {
           $.extend(params, { _method: 'put' }),
           function() { q.dequeue(); });
       } else {
-        params['task[day]'] = li.closest('td').find('form input#task_day').val();
         $.post('/tasks.json', params, function(t) {
           li.data('task', t.task);
           li.removeClass('ui-state-disabled');
