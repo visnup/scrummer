@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090914174552) do
+ActiveRecord::Schema.define(:version => 20090915082635) do
 
   create_table "people", :force => true do |t|
     t.string   "name"
@@ -28,5 +28,7 @@ ActiveRecord::Schema.define(:version => 20090914174552) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "tasks", ["day", "person_id", "kind"], :name => "index_tasks_on_day_and_person_id_and_kind"
 
 end

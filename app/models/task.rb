@@ -3,10 +3,10 @@ class Task < ActiveRecord::Base
   default_scope :order => 'position ASC'
   named_scope :kind, lambda { |kind| { :conditions => { :kind => kind } } }
   named_scope :before, lambda { |date|
-    { :conditions => [ 'date(day) < ?', date ] }
+    { :conditions => [ 'day < ?', date ] }
   }
   named_scope :on, lambda { |date|
-    { :conditions => [ 'date(day) = ?', date ],
+    { :conditions => [ 'day = ?', date ],
       :order => 'position ASC' }
   }
 
