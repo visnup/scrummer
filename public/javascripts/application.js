@@ -26,7 +26,7 @@ var S = {
           $.extend(params, { _method: 'put' }),
           function() { q.dequeue(); });
       } else {
-        params['task[day]'] = $('form input#task_day').val();
+        params['task[day]'] = li.closest('td').find('form input#task_day').val();
         $.post('/tasks.json', params, function(t) {
           li.data('task', t.task);
           li.removeClass('ui-state-disabled');
