@@ -104,7 +104,7 @@ var S = {
 
     var datepicker = function() {
       $('#date').datepicker({
-        defaultDate: new Date($('form input#task_day').val().replace(/-/g,'/')),
+        defaultDate: new Date($('ul.today ~ form input#task_day').val().replace(/-/g,'/')),
         onSelect: function(dateText, inst) {
           window.location = '/?date=' + dateText;
         }

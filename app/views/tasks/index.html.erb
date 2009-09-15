@@ -27,7 +27,7 @@
         <hr/>
         <% form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f| %>
           <%= f.hidden_field :kind, :value => 'week' %>
-          <%= f.hidden_field :day, :value => @date %>
+          <%= f.hidden_field :day, :value => @date.beginning_of_week %>
           <%= f.text_field :body %>
         <% end %>
       </td>

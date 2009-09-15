@@ -6,7 +6,7 @@ class TasksController < ApplicationController
     srand @date.to_time.to_i
 
     @people = Person.active.sort_by { rand }
-    @tasks = Task.on(@date)
+    @tasks = Task.on(@date) | Task.kind('week').on(@date.beginning_of_week)
     yesterday_tasks = @tasks.select { |t| t.kind == 'yesterday' }
     @empty = (@people - yesterday_tasks.collect(&:person)).map do |p|
       d = p.tasks.kind('today').before(@date).maximum('day')
