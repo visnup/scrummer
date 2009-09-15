@@ -1,74 +1,50 @@
-jQuery.ajaxQueue = function(o){
-  var q = jQuery([jQuery.ajaxQueue]),
-      _old = o.complete;
-  o.complete = function(){
-    if ( _old ) _old.apply( this, arguments );
-    q.dequeue("ajax");
-  };
-
-  q.queue("ajax", function(){
-    jQuery.ajax( o );
-  });
-
-  if (q.queue("ajax").length === 1)
-    q.dequeue("ajax");
-};
-
 var S = {
-  post: function( url, data, callback, type ) {
-    if ( jQuery.isFunction( data ) ) {
-      callback = data;
-      data = {};
-    }
-
-    return $.ajaxQueue({
-      type: "POST",
-      url: url,
-      data: data,
-      success: callback,
-      dataType: type
-    });
-  },
-
   create: function(form, li) {
-    var url = form.attr('action');
-    li.data('task', 'waiting');
-    S.post(url, form.serialize(), function(t) {
-      li.data('task', t.task);
-    }, 'json');
+    li.queue(function() {
+      var q = $(this);
+      var url = form.attr('action');
+      $.post(url, form.serialize(), function(t) {
+        li.data('task', t.task);
+        q.dequeue();
+      }, 'json');
+    });
   },
 
   update: function(li) {
     li = $(li).closest('li');
-    var params = {
-      'task[person_id]': li.parent().data('person_id'),
-      'task[kind]': li.parent().data('kind'),
-      'task[body]': li.children('label').text(),
-      'task[done]': li.children(':checkbox').attr('checked'),
-      'task[position]': li.prevAll('li').length
-    };
-    if (li.data('task')) {
-      if (li.data('task') === 'waiting') {
-        S.status('Conflict', true);
-        return;
+    li.queue(function() {
+      var q = $(this);
+      var params = {
+        'task[person_id]': li.parent().data('person_id'),
+        'task[kind]': li.parent().data('kind'),
+        'task[body]': li.children('label').text(),
+        'task[done]': li.children(':checkbox').attr('checked'),
+        'task[position]': li.prevAll('li').length
+      };
+      if (li.data('task')) {
+        $.post('/tasks/' + li.data('task').id + '.json',
+          $.extend(params, { _method: 'put' }),
+          function() { q.dequeue(); });
+      } else {
+        params['task[day]'] = $('form input#task_day').val();
+        $.post('/tasks.json', params, function(t) {
+          li.data('task', t.task);
+          li.removeClass('ui-state-disabled');
+          q.dequeue();
+        }, 'json');
       }
-      S.post('/tasks/' + li.data('task').id + '.json',
-        $.extend(params, { _method: 'put' }));
-    } else {
-      params['task[day]'] = $('form input#task_day').val();
-      li.data('task', 'waiting');
-      S.post('/tasks.json', params, function(t) {
-        li.data('task', t.task);
-        li.removeClass('ui-state-disabled');
-      }, 'json');
-    }
+    });
   },
 
   destroy: function(li) {
     li = $(li).closest('li');
-    if (li.hasClass('ui-state-disabled')) return;
-    S.post('/tasks/' + li.data('task').id + '.json',
-      { _method: 'delete' });
+    li.queue(function() {
+      var q = $(this);
+      if (li.hasClass('ui-state-disabled')) return;
+      $.post('/tasks/' + li.data('task').id + '.json',
+        { _method: 'delete' },
+        function() { q.dequeue(); });
+    });
   },
 
   task: function(t) {
