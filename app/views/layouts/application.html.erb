@@ -12,7 +12,11 @@
   <%= yield :head %>
 </head>
 <body>
-  <div id="page" class="<%= params[:controller] %> <%= params[:controller] %>-<%= params[:action] %>">
+  <div id="page" class="<%= params[:controller] %> <%= params[:controller] %>-<%= params[:action] %> ui-corner-all">
+    <div id="nav">
+      <%= link_to 'Home', root_path %>
+      <%= link_to 'People', people_path %>
+    </div>
     <%= yield %>
   </div>
 </body>
