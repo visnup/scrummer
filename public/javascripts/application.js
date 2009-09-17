@@ -198,7 +198,6 @@ var S = {
                   function() { a.dequeue(); });
               } else {
                 $.post('/tasks.json', params, function(t) {
-                  console.log(t.task);
                   a.data('task', t.task).dequeue();
                 }, 'json');
               }
