@@ -63,13 +63,14 @@ a:hover
             :border none
             :background none
           .links
-            :visibility hidden
+            :opacity 0
             :position absolute
             :margin-left 1ex
             .ui-icon
               :display inline-block
           &:hover .links
-            :visibility visible
+            :opacity 1
+            :-webkit-transition opacity 200ms linear
       hr
         :margin 0px
         :border none
@@ -77,5 +78,11 @@ a:hover
         :width 20px
       form.new
         input
-          :opacity 0
           :width 80%
+          :opacity 0
+          :-webkit-transition opacity 200ms linear
+          &:focus
+            :opacity 1
+        &:hover input
+          :opacity 1
+          :-webkit-transition opacity 200ms linear

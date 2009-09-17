@@ -172,15 +172,6 @@ var S = {
 
         return false;
       });
-      // new show/hide
-      $('form.new :text').focus(function() { $(this).addClass('focused'); });
-      $('form.new :text').blur(function() {
-        $(this).removeClass('focused').fadeTo('fast', 0);
-      });
-      $('form.new').hover(
-        function() { $(':text', this).fadeTo('fast', 1); },
-        function() { $(':text:not(.focused)', this).fadeTo('fast', 0); }
-      );
     };
 
     $(document).ready(function() {
