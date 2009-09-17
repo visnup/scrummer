@@ -172,6 +172,56 @@ var S = {
 
         return false;
       });
+
+      // late
+      $('a.late').click(function() {
+        var a = $(this);
+
+        var late = new Date();
+        var minutes = (late.getHours() - 10) * 60 + late.getMinutes();
+        var input = $('<input />')
+          .blur(function() { form.remove(); a.show(); })
+          .val(a.data('minutes') || minutes);
+        var form = $('<form>')
+          .submit(function() {
+            var m = input.val(), td = a.closest('td');
+            var params = {
+              'task[person_id]': $('ul', td).data('person_id'),
+              'task[kind]': 'late',
+              'task[day]': $('form input#task_day', td).val(),
+              'task[body]': m
+            };
+            a.queue(function() {
+              if (a.data('task')) {
+                $.post('/tasks/' + a.data('task').id + '.json',
+                  $.extend(params, { _method: 'put' }),
+                  function() { a.dequeue(); });
+              } else {
+                $.post('/tasks.json', params, function(t) {
+                  console.log(t.task);
+                  a.data('task', t.task).dequeue();
+                }, 'json');
+              }
+            });
+
+            a
+              .data('minutes', m)
+              .html('late ' + m + ' minutes')
+              .removeClass('ui-state-disabled')
+              .show();
+            form.remove();
+            return false;
+          })
+          .append(input)
+          .append(' minutes');
+
+        a
+          .hide()
+          .after(form);
+        input.select();
+
+        return false;
+      });
     };
 
     $(document).ready(function() {
@@ -181,15 +231,19 @@ var S = {
       events();
 
       // initialize
-      $.each(tasks, function(i, t) {
-        t = t.task;
-        var ul = $('tr#' + t.person_id + ' ul.' + t.kind);
-        ul.append(S.task(t));
+      $.each(tasks, function() {
+        var t = this.task;
+        $('tr#' + t.person_id + ' ul.' + t.kind).append(S.task(t)).length ||
+        $('tr#' + t.person_id + ' .' + t.kind)
+          .data('task', t)
+          .data('minutes', t.body)
+          .removeClass('ui-state-disabled')
+          .html('late ' + t.body + ' minutes');
       });
 
       // missing yesterday tasks
-      $.each(last, function(i, t) {
-        t = t.task;
+      $.each(last, function() {
+        var t = this.task;
         var ul = $('tr#' + t.person_id + ' ul.yesterday');
         ul.append(S.task(t).addClass('ui-state-disabled').removeData('task'));
       });

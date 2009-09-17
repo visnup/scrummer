@@ -37,6 +37,17 @@ a:hover
     :color #555
   h1
     :border-bottom solid 1px #ccc
+  h3
+    .late-yesterday, .late, form, form input
+      :font-size = !small
+    a.late
+      &:hover
+        :opacity 1
+        :-webkit-transition opacity 200ms linear
+    form
+      :display inline
+      input
+        :width 5ex
   #date
     :position absolute
     :right 40px

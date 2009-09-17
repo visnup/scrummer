@@ -30,7 +30,7 @@
         <% end %>
       </td>
       <td>
-        <h3>Yesterday</h3>
+        <h3>Yesterday <span class="late-yesterday"></span></h3>
         <ul class="yesterday"></ul>
         <hr/>
         <% form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f| %>
@@ -40,7 +40,7 @@
         <% end %>
       </td>
       <td>
-        <h3>Today</h3>
+        <h3>Today <a href="#" class="late ui-state-disabled">late?</a></h3>
         <ul class="today"></ul>
         <hr/>
         <% form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f| %>

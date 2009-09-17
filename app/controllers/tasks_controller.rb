@@ -6,9 +6,11 @@ class TasksController < ApplicationController
     srand @date.to_time.to_i
 
     @people = Person.active.sort_by { rand }
-    @tasks = Task.on(@date) | Task.kind('week').on(@date.beginning_of_week)
-    yesterday_tasks = @tasks.select { |t| t.kind == 'yesterday' }
-    @empty = (@people - yesterday_tasks.collect(&:person)).map do |p|
+    @tasks = Task.on(@date) |
+             Task.kind('week').on(@date.beginning_of_week) |
+             Task.kind('late').on(@date.yesterday).each { |t| t.kind = 'late-yesterday' }
+    yesterday = @tasks.select { |t| t.kind == 'yesterday' }
+    @empty = (@people - yesterday.collect(&:person).uniq).map do |p|
       d = p.tasks.kind('today').before(@date).maximum('day')
       p.tasks.kind('today').on(d)
     end.flatten
