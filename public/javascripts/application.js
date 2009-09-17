@@ -206,7 +206,7 @@ var S = {
 
             a
               .data('minutes', m)
-              .html('late ' + m + ' minutes')
+              .text('late ' + m + ' minutes')
               .removeClass('ui-state-disabled')
               .show();
             form.remove();
@@ -222,6 +222,24 @@ var S = {
 
         return false;
       });
+
+      $('h1 *').toggle(
+        function() {
+          $(this)
+            .closest('tr')
+              .next().andSelf()
+              .addClass('keep')
+              .parent()
+                .find('tr:not(.keep)')
+                .fadeOut('fast');
+          return false;
+        },
+        function() {
+          $(this)
+            .closest('table').find('tr')
+              .removeClass('keep')
+              .fadeIn('slow');
+        });
     };
 
     $(document).ready(function() {
@@ -238,7 +256,7 @@ var S = {
           .data('task', t)
           .data('minutes', t.body)
           .removeClass('ui-state-disabled')
-          .html('late ' + t.body + ' minutes');
+          .text('late ' + t.body + ' minutes');
       });
 
       // missing yesterday tasks

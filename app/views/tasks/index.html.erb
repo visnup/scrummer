@@ -17,7 +17,7 @@
 
 <table class="tasks">
   <% @people.each do |p| %>
-    <tr><td colspan="3"><h1><%= p.name %></h1></td></tr>
+    <tr><td colspan="3"><h1><span><%= p.name %><span></h1></td></tr>
     <tr id="<%= p.id %>">
       <td>
         <h3>Week</h3>
