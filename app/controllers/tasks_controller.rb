@@ -15,6 +15,28 @@ class TasksController < ApplicationController
       p.tasks.kind('today').on(d)
     end.flatten
 
+    days = (@date - 3.weeks .. @date)
+    @productivity = Task.kind('yesterday').after(days.begin).all(
+      :select => 'person_id, day, done, count(*) as count',
+      :group => 'person_id, day, done'
+    ).map(&:attributes).group_by { |r| r['person_id'] }
+    @productivity.each do |id, t|
+      t = t.group_by { |r| r['day'] }
+      t = days.map do |d|
+        next if d.wday == 0 || d.wday == 1
+        if t[d]
+          { t[d].first['done'] => t[d].first['count'].to_i,
+            t[d].last['done'] => t[d].last['count'].to_i }
+        else
+          { true => 0, false => 0 }
+        end
+      end.compact
+      @productivity[id] = [
+        t.map { |x| x[true] || 0 },
+        t.map { |x| x[false] || 0 }
+      ]
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @tasks }

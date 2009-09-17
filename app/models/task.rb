@@ -1,9 +1,14 @@
 class Task < ActiveRecord::Base
   belongs_to :person
   default_scope :order => 'position ASC'
+
   named_scope :kind, lambda { |kind| { :conditions => { :kind => kind } } }
+  named_scope :done, :conditions => { :done => true }
   named_scope :before, lambda { |date|
     { :conditions => [ 'day < ?', date ] }
+  }
+  named_scope :after, lambda { |date|
+    { :conditions => [ 'day > ?', date ] }
   }
   named_scope :on, lambda { |date|
     { :conditions => [ 'day = ?', date ],

@@ -66,7 +66,7 @@ var S = {
     return li;
   },
 
-  index: function(tasks, last) {
+  index: function(options) {
     var ajaxStatus = function() {
       $('#status').
         ajaxError(function() {
@@ -232,6 +232,7 @@ var S = {
         return false;
       });
 
+      // show/hide only one person
       $('h1 *').toggle(
         function() {
           $(this)
@@ -251,14 +252,45 @@ var S = {
         });
     };
 
+    var plots = function(productivity) {
+      console.log(productivity);
+      $.each(productivity, function(personId, series) {
+        if (!$('#sparkline' + personId).length) return true;
+        $.jqplot('sparkline' + personId, series, {
+          stackSeries: true,
+          seriesDefaults: {
+            renderer: $.jqplot.BarRenderer,
+            rendererOptions: {barWidth: 2},
+            shadow: false
+          },
+          seriesColors: [ '#2e83ff', '#f9dd34' ],
+          axesDefaults: {
+            show: false,
+            showTicks: false
+          },
+          axes: {
+            yaxis: { min: 0, max: 12 }
+          },
+          grid: {
+            background: '#f2f5f7',
+            borderColor: '#f2f5f7',
+            borderWidth: 0,
+            shadow: false
+          },
+          gridPadding: { top: 0, right: 0, bottom: 0, left: 0 }
+        });
+      });
+    };
+
     $(document).ready(function() {
       ajaxStatus();
       sortables();
       datepicker();
       events();
+      plots(options.productivity);
 
       // initialize
-      $.each(tasks, function() {
+      $.each(options.tasks, function() {
         var t = this.task;
         $('tr#' + t.person_id + ' ul.' + t.kind).append(S.task(t)).length ||
         $('tr#' + t.person_id + ' .' + t.kind)
@@ -269,7 +301,7 @@ var S = {
       });
 
       // missing yesterday tasks
-      $.each(last, function() {
+      $.each(options.empty, function() {
         var t = this.task;
         var ul = $('tr#' + t.person_id + ' ul.yesterday');
         ul.append(S.task(t).addClass('ui-state-disabled').removeData('task'));

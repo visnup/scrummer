@@ -1,6 +1,11 @@
 <% content_for :head do %>
+  <%= javascript_include_tag 'jqplot/plugins/jqplot.barRenderer.min' %>
   <script type="text/javascript">
-    S.index(<%= @tasks.to_json %>, <%= @empty.to_json %>);
+    S.index({
+      tasks: <%= @tasks.to_json %>,
+      empty: <%= @empty.to_json %>,
+      productivity: <%= @productivity.to_json %>
+    });
   </script>
 <% end %>
 
@@ -17,7 +22,12 @@
 
 <table class="tasks">
   <% @people.each do |p| %>
-    <tr><td colspan="3"><h1><span><%= p.name %><span></h1></td></tr>
+    <tr><td colspan="3">
+      <h1>
+        <span><%= p.name %><span>
+        <div id="sparkline<%= p.id %>" class="sparkline"></div>
+      </h1>
+    </td></tr>
     <tr id="<%= p.id %>">
       <td>
         <h3>Week</h3>
