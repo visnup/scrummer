@@ -18,7 +18,7 @@ var S = {
         'task[person_id]': li.parent().data('person_id'),
         'task[kind]': li.parent().data('kind'),
         'task[day]': li.closest('td').find('form input#task_day').val(),
-        'task[body]': li.children('label').text(),
+        'task[body]': li.children('label').data('body'),
         'task[done]': li.children(':checkbox').attr('checked'),
         'task[position]': li.prevAll('li').length
       };
@@ -47,9 +47,16 @@ var S = {
     });
   },
 
+  showdown: new Showdown.converter(),
+  markdown: function(text) {
+    return S.showdown.makeHtml(text).replace(/^<p>/, '').replace(/<\/p>$/, '');
+  },
+
   task: function(t) {
     var li = $('li#template').clone(true).removeAttr('id');
-    li.children('label').html(t.body);
+    li.children('label')
+      .data('body', t.body)
+      .html(S.markdown(t.body));
     if (t.done) {
       li.children(':checkbox').attr('checked', true);
       li.children('label').addClass('done');
@@ -123,11 +130,13 @@ var S = {
       // edit in place
       var edit = function(e) {
         var label = $(e.currentTarget).closest('li').children('label').hide();
-        var input = $('<input />').val($.trim(label.text()));
+        var input = $('<input />').val($.trim(label.data('body')));
         var form = $('<form>').append(input);
 
         var done = function(e) {
-          label.html(input.val()).show();
+          label
+            .data('body', input.val())
+            .html(S.markdown(input.val())).show();
           form.remove();
           S.update(label);
           return false;
