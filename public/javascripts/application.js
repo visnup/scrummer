@@ -272,6 +272,15 @@ var S = {
         var t = this.task;
         var ul = $('tr#' + t.person_id + ' ul.yesterday');
         ul.append(S.task(t).addClass('ui-state-disabled').removeData('task'));
+
+        ul.prev('h3:not(:has(a))').append(
+          $('<a href="#">copy</a>')
+            .click(function() {
+              ul.children('li').each(function() { S.update(this); });
+              $(this).remove();
+              return false;
+            })
+        );
       });
     });
   },
