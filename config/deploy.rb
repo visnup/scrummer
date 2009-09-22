@@ -6,6 +6,7 @@ set :use_sudo, false
 set :scm, :git
 
 role :web, "build.dev"
+role :db, "build.dev", :primary => true
 
 namespace :deploy do
   task :restart, :roles => :web, :except => { :no_release => true } do
@@ -18,4 +19,4 @@ namespace :deploy do
   end
 end
 
-before "deploy:restart", "deploy:symlink_db"
+after "deploy:update_code", "deploy:symlink_db"
