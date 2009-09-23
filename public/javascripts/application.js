@@ -94,6 +94,7 @@ var S = {
 
             if (e.metaKey || e.ctrlKey) {
               var copy = ui.item.clone(true);
+              copy.children('label').data('body', ui.item.children('label').data('body'));  // HACK
               var prev = ui.item.prev('li');
               if (prev.length > 0)
                 prev.after(copy);
