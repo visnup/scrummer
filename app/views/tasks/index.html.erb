@@ -24,8 +24,8 @@
   <% @people.each do |p| %>
     <tr><td colspan="3">
       <h1>
-        <span><%= p.name %><span>
         <div id="sparkline<%= p.id %>" class="sparkline"></div>
+        <span><%= p.name %><span>
       </h1>
     </td></tr>
     <tr id="<%= p.id %>">
