@@ -253,7 +253,6 @@ var S = {
     };
 
     var plots = function(productivity) {
-      console.log(productivity);
       $.each(productivity, function(personId, series) {
         if (!$('#sparkline' + personId).length) return true;
         $.jqplot('sparkline' + personId, series, {
