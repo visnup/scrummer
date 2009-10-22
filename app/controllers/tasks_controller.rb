@@ -9,10 +9,17 @@ class TasksController < ApplicationController
     @tasks = Task.on(@date) |
              Task.kind('week').on(@date.beginning_of_week) |
              Task.kind('late').on(@date.yesterday).each { |t| t.kind = 'late-yesterday' }
+
     yesterday = @tasks.select { |t| t.kind == 'yesterday' }
-    @empty = (@people - yesterday.collect(&:person).uniq).map do |p|
+    @empty_yesterday = (@people - yesterday.collect(&:person).uniq).map do |p|
       d = p.tasks.kind('today').before(@date).maximum('day')
       p.tasks.kind('today').on(d)
+    end.flatten
+
+    week = @tasks.select { |t| t.kind == 'week' }
+    @empty_week = (@people - week.collect(&:person).uniq).map do |p|
+      d = p.tasks.kind('week').before(@date.beginning_of_week).maximum('day')
+      p.tasks.kind('week').on(d)
     end.flatten
 
     days = (@date - 3.weeks .. @date)

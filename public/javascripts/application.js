@@ -300,19 +300,33 @@ var S = {
       });
 
       // missing yesterday tasks
-      $.each(options.empty, function() {
+      $.each(options.empty_yesterday, function() {
         var t = this.task;
         var ul = $('tr#' + t.person_id + ' ul.yesterday');
         ul.append(S.task(t).addClass('ui-state-disabled').removeData('task'));
 
-        ul.prev('h3:not(:has(a))').append(
-          $('<a href="#">copy</a>')
-            .click(function() {
-              ul.children('li').each(function() { S.update(this); });
-              $(this).remove();
-              return false;
-            })
-        );
+        $('<a href="#">copy</a>')
+          .appendTo(ul.prev('h3:not(:has(a))').append(' '))
+          .click(function() {
+            ul.children('li').each(function() { S.update(this); });
+            $(this).remove();
+            return false;
+          });
+      });
+
+      // missing week tasks
+      $.each(options.empty_week, function() {
+        var t = this.task;
+        var ul = $('tr#' + t.person_id + ' ul.week');
+        ul.append(S.task(t).addClass('ui-state-disabled').removeData('task'));
+
+        $('<a href="#">copy</a>')
+          .appendTo(ul.prev('h3:not(:has(a))').append(' '))
+          .click(function() {
+            ul.children('li').each(function() { S.update(this); });
+            $(this).remove();
+            return false;
+          });
       });
     });
   },

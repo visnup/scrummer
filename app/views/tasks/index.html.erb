@@ -3,7 +3,8 @@
   <script type="text/javascript">
     S.index({
       tasks: <%= @tasks.to_json %>,
-      empty: <%= @empty.to_json %>,
+      empty_yesterday: <%= @empty_yesterday.to_json %>,
+      empty_week: <%= @empty_week.to_json %>,
       productivity: <%= @productivity.to_json %>
     });
   </script>
