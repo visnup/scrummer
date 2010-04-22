@@ -1,5 +1,9 @@
 --- 
 dependencies: 
+  pg: 
+    group: 
+    - :production
+    version: ">= 0"
   rails: 
     group: 
     - :default
@@ -10,7 +14,7 @@ dependencies:
     version: ">= 0"
   sqlite3-ruby: 
     group: 
-    - :default
+    - :development
     version: ">= 0"
   thin: 
     group: 
@@ -37,13 +41,15 @@ specs:
     version: 0.12.10
 - haml: 
     version: 2.2.23
+- pg: 
+    version: 0.9.0
 - rails: 
     version: 2.3.5
 - sqlite3-ruby: 
     version: 1.2.5
 - thin: 
     version: 1.2.7
-hash: a35c21dce091ba00b2c503f36d663a40285d1bb9
+hash: 45d9ff4ee105ddc94e0d2017407a87dbe61aa274
 sources: 
 - Rubygems: 
     uri: http://rubygems.org
