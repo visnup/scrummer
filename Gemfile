@@ -1,0 +1,5 @@
+source "http://rubygems.org"
+gem "haml"
+gem "rails", "2.3.5"
+gem "sqlite3-ruby"
+gem "thin"
