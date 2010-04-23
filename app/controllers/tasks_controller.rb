@@ -24,8 +24,8 @@ class TasksController < ApplicationController
 
     days = (@date - 3.weeks .. @date)
     @productivity = Task.kind('yesterday').after(days.begin).all(
-      :select => 'person_id, day, done, max(position), count(*) as count',
-      :group => 'person_id, day, done'
+      :select => 'person_id, day, done, count(*) as count',
+      :group => 'person_id, day, done, max(position)'
     ).map(&:attributes).group_by { |r| r['person_id'] }
     @productivity.each do |id, t|
       t = t.group_by { |r| r['day'] }
