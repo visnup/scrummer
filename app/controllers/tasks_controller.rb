@@ -23,9 +23,10 @@ class TasksController < ApplicationController
     end.flatten
 
     days = (@date - 3.weeks .. @date)
+=begin
     @productivity = Task.kind('yesterday').after(days.begin).all(
       :select => 'person_id, day, done, count(*) as count',
-      :group => 'person_id, day, done, max(position)'
+      :group => 'person_id, day, done'
     ).map(&:attributes).group_by { |r| r['person_id'] }
     @productivity.each do |id, t|
       t = t.group_by { |r| r['day'] }
@@ -43,6 +44,7 @@ class TasksController < ApplicationController
         t.map { |x| x[false] || 0 }
       ]
     end
+=end
 
     respond_to do |format|
       format.html # index.html.erb

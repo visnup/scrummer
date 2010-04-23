@@ -265,7 +265,7 @@ var S = {
       sortables();
       datepicker();
       events();
-      plots(options.productivity);
+      //plots(options.productivity);
 
       // initialize
       _.each(options.tasks, function(t) {
