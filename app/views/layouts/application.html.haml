@@ -7,9 +7,10 @@
     %link{ :rel => 'icon', :type => 'image/png', :href => '/images/Stickies.png' }
     - if Rails.env.production?
       = javascript_include_tag 'http://code.jquery.com/jquery.min.js'
-      = javascript_include_tag 'jquery-ui/js/jquery-ui-1.8.custom.min', 'showdown/compressed/showdown', 'application', :cache => true
+      = javascript_include_tag 'jquery-ui/js/jquery-ui-1.8.custom.min', 'jquery.sparkline/jquery.sparkline.min', 'underscore/underscore.min', 'showdown/compressed/showdown', 'application', :cache => true
     - else
-      = javascript_include_tag 'jquery-ui/development-bundle/jquery-1.4.2', 'jquery-ui/js/jquery-ui-1.8.custom.min', 'showdown/src/showdown', 'application'
+      = javascript_include_tag 'jquery-ui/development-bundle/jquery-1.4.2'
+      = javascript_include_tag 'jquery-ui/js/jquery-ui-1.8.custom.min', 'jquery.sparkline/jquery.sparkline', 'underscore/underscore', 'showdown/src/showdown', 'application'
     = yield :head
   %body
     #page.ui-corner-all{ :class => "#{params[:controller]} #{params[:controller]}-#{params[:action]}" }

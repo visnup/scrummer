@@ -253,44 +253,23 @@ var S = {
     };
 
     var plots = function(productivity) {
-      $.each(productivity, function(personId, series) {
-        if (!$('#sparkline' + personId).length) return true;
-        $.jqplot('sparkline' + personId, series, {
-          stackSeries: true,
-          seriesDefaults: {
-            renderer: $.jqplot.BarRenderer,
-            rendererOptions: {barWidth: 2},
-            shadow: false
-          },
-          seriesColors: [ '#2e83ff', '#f9dd34' ],
-          axesDefaults: {
-            show: false,
-            showTicks: false
-          },
-          axes: {
-            yaxis: { min: 0, max: 12 }
-          },
-          grid: {
-            background: '#f2f5f7',
-            borderColor: '#f2f5f7',
-            borderWidth: 0,
-            shadow: false
-          },
-          gridPadding: { top: 0, right: 0, bottom: 0, left: 0 }
+      _.each(productivity, function(series, personId) {
+        $('#sparkline' + personId).sparkline(series[0], {
+          type: 'bar'
         });
       });
     };
 
-    $(document).ready(function() {
+    $(function() {
       ajaxStatus();
       sortables();
       datepicker();
       events();
-      //plots(options.productivity);
+      plots(options.productivity);
 
       // initialize
-      $.each(options.tasks, function() {
-        var t = this.task;
+      _.each(options.tasks, function(t) {
+        t = t.task;
         $('tr#' + t.person_id + ' ul.' + t.kind).append(S.task(t)).length ||
         $('tr#' + t.person_id + ' .' + t.kind)
           .data('task', t)
@@ -300,8 +279,8 @@ var S = {
       });
 
       // missing yesterday tasks
-      $.each(options.empty_yesterday, function() {
-        var t = this.task;
+      _.each(options.empty_yesterday, function(t) {
+        t = t.task;
         var ul = $('tr#' + t.person_id + ' ul.yesterday');
         ul.append(S.task(t).addClass('ui-state-disabled').removeData('task'));
 
@@ -315,8 +294,8 @@ var S = {
       });
 
       // missing week tasks
-      $.each(options.empty_week, function() {
-        var t = this.task;
+      _.each(options.empty_week, function(t) {
+        t = t.task;
         var ul = $('tr#' + t.person_id + ' ul.week');
         ul.append(S.task(t).addClass('ui-state-disabled').removeData('task'));
 
