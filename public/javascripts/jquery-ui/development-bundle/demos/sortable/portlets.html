@@ -1,11 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+	<meta charset="UTF-8" />
 	<title>jQuery UI Sortable - Portlets</title>
-	<link type="text/css" href="../../themes/base/ui.all.css" rel="stylesheet" />
-	<script type="text/javascript" src="../../jquery-1.3.2.js"></script>
-	<script type="text/javascript" src="../../ui/ui.core.js"></script>
-	<script type="text/javascript" src="../../ui/ui.sortable.js"></script>
+	<link type="text/css" href="../../themes/base/jquery.ui.all.css" rel="stylesheet" />
+	<script type="text/javascript" src="../../jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="../../ui/jquery.ui.core.js"></script>
+	<script type="text/javascript" src="../../ui/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="../../ui/jquery.ui.mouse.js"></script>
+	<script type="text/javascript" src="../../ui/jquery.ui.sortable.js"></script>
 	<link type="text/css" href="../demos.css" rel="stylesheet" />
 	<style type="text/css">
 	.column { width: 170px; float: left; padding-bottom: 100px; }
@@ -25,12 +28,12 @@
 		$(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
 			.find(".portlet-header")
 				.addClass("ui-widget-header ui-corner-all")
-				.prepend('<span class="ui-icon ui-icon-plusthick"></span>')
+				.prepend('<span class="ui-icon ui-icon-minusthick"></span>')
 				.end()
 			.find(".portlet-content");
 
 		$(".portlet-header .ui-icon").click(function() {
-			$(this).toggleClass("ui-icon-minusthick");
+			$(this).toggleClass("ui-icon-minusthick").toggleClass("ui-icon-plusthick");
 			$(this).parents(".portlet:first").find(".portlet-content").toggle();
 		});
 

@@ -286,7 +286,7 @@ var S = {
       sortables();
       datepicker();
       events();
-      plots(options.productivity);
+      //plots(options.productivity);
 
       // initialize
       $.each(options.tasks, function() {
