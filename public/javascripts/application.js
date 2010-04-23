@@ -69,8 +69,8 @@ var S = {
   index: function(options) {
     var ajaxStatus = function() {
       $('#status').
-        ajaxError(function() {
-          S.status('Error', true);
+        ajaxError(function(el, xhr, req, msg) {
+          S.status('Error - ' + msg, true);
         }).
         ajaxStart(function() {
           S.status('Saving');

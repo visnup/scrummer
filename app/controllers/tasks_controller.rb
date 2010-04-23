@@ -109,7 +109,7 @@ class TasksController < ApplicationController
       if @task.update_attributes(params[:task])
         flash[:notice] = 'Task was successfully updated.'
         format.html { redirect_to(@task) }
-        format.json { head :ok }
+        format.json { render :json => {}, :status => :ok }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -127,7 +127,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(tasks_url) }
-      format.json { head :ok }
+      format.json { render :json => {}, :status => :ok }
       format.xml  { head :ok }
     end
   end
