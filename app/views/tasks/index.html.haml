@@ -1,0 +1,56 @@
+- content_for :head do
+  = javascript_include_tag 'jqplot/plugins/jqplot.barRenderer.min'
+  :javascript
+    S.index({
+      tasks: #{@tasks.to_json},
+      empty_yesterday: #{@empty_yesterday.to_json},
+      empty_week: #{@empty_week.to_json},
+      productivity: #{@productivity.to_json}
+    });
+
+#status.ui-state-highlight.ui-corner-bottom
+#date
+
+%li#template
+  %input{ :type => "checkbox" }
+  %label
+  %span.links.ui-state-default
+    %a.edit{ :href => "#" }
+    %a.destroy{ :href => '#' }>
+
+%table.tasks
+  - @people.each do |p|
+    %tr
+      %td{ :colspan => "3" }
+        %h1
+          .sparkline{ :id => "sparkline#{p.id}" }
+          %span= p.name
+    %tr{ :id => p.id }
+      %td
+        %h3 Week
+        %ul.week
+        %hr
+        - form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f|
+          = f.hidden_field :kind, :value => 'week'
+          = f.hidden_field :day, :value => @date.beginning_of_week
+          = f.text_field :body
+      %td
+        %h3
+          Yesterday
+          %span.late-yesterday
+        %ul.yesterday
+        %hr
+        - form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f|
+          = f.hidden_field :kind, :value => 'yesterday'
+          = f.hidden_field :day, :value => @date
+          = f.text_field :body
+      %td
+        %h3
+          Today
+          %a.late.ui-state-disabled{ href="#" } late?
+        %ul.today
+        %hr
+        - form_for :task, :url => person_tasks_path(p, :format => 'json'), :html => { :class => 'new' } do |f|
+          = f.hidden_field :kind, :value => 'today'
+          = f.hidden_field :day, :value => @date
+          = f.text_field :body

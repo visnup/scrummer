@@ -1,0 +1,11 @@
+%p
+  %strong Name:
+  = h @person.name
+
+%p
+  %strong Active:
+  = h @person.active
+
+= link_to 'Edit', edit_person_path(@person)
+|
+= link_to 'Back', people_path

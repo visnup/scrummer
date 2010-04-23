@@ -1,0 +1,19 @@
+%h1 Editing person
+
+- form_for(@person) do |f|
+  = f.error_messages
+
+  %p
+    = f.label :name
+    %br
+    = f.text_field :name
+  %p>
+    = f.label :active
+    %br
+    = f.check_box :active
+  %p>
+    = f.submit 'Update'
+
+= link_to 'Show', @person
+|
+= link_to 'Back', people_path
