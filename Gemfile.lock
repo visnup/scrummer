@@ -7,7 +7,7 @@ dependencies:
   rails: 
     group: 
     - :default
-    version: = 2.3.5
+    version: = 3.0.0.beta3
   haml: 
     group: 
     - :default
@@ -23,18 +23,52 @@ dependencies:
 specs: 
 - rake: 
     version: 0.8.7
+- abstract: 
+    version: 1.0.0
+- builder: 
+    version: 2.1.2
+- i18n: 
+    version: 0.3.7
+- memcache-client: 
+    version: 1.8.2
+- tzinfo: 
+    version: 0.3.20
 - activesupport: 
-    version: 2.3.5
+    version: 3.0.0.beta3
+- activemodel: 
+    version: 3.0.0.beta3
+- erubis: 
+    version: 2.6.5
 - rack: 
-    version: 1.0.1
+    version: 1.1.0
+- rack-mount: 
+    version: 0.6.3
+- rack-test: 
+    version: 0.5.3
 - actionpack: 
-    version: 2.3.5
+    version: 3.0.0.beta3
+- mime-types: 
+    version: "1.16"
+- polyglot: 
+    version: 0.3.1
+- treetop: 
+    version: 1.4.5
+- mail: 
+    version: 2.2.0
+- text-hyphen: 
+    version: 1.0.0
+- text-format: 
+    version: 1.0.0
 - actionmailer: 
-    version: 2.3.5
+    version: 3.0.0.beta3
+- arel: 
+    version: 0.3.3
 - activerecord: 
-    version: 2.3.5
+    version: 3.0.0.beta3
 - activeresource: 
-    version: 2.3.5
+    version: 3.0.0.beta3
+- bundler: 
+    version: 0.9.23
 - daemons: 
     version: 1.0.10
 - eventmachine: 
@@ -43,13 +77,17 @@ specs:
     version: 2.2.23
 - pg: 
     version: 0.9.0
+- thor: 
+    version: 0.13.4
+- railties: 
+    version: 3.0.0.beta3
 - rails: 
-    version: 2.3.5
+    version: 3.0.0.beta3
 - sqlite3-ruby: 
     version: 1.2.5
 - thin: 
     version: 1.2.7
-hash: 45d9ff4ee105ddc94e0d2017407a87dbe61aa274
+hash: 58fd61d200bde1facf4da80742cdbd639bafa72d
 sources: 
 - Rubygems: 
     uri: http://rubygems.org
