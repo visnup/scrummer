@@ -1,10 +1,12 @@
-source "http://rubygems.org"
+source :rubygems
+
 gem "haml"
-gem "rails", "3.0.0.beta3"
-gem "thin"
+gem "rails"
+gem "sass"
 
 group :development do
   gem "sqlite3-ruby"
+  gem "thin"
 end
 
 group :production do

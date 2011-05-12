@@ -1,9 +1,9 @@
-!medium = 14pt
-!small = 10pt
-!tiny = 7pt
+$medium: 14pt
+$small: 10pt
+$tiny: 7pt
 
 body, input
-  :font #{!medium} georgia, serif
+  :font $medium georgia, serif
   :background #efefef url('/images/bg.jpg') repeat-x
 
 input
@@ -48,7 +48,7 @@ a:hover
         :margin 0px
   h3
     *
-      :font-size = !small
+      :font-size $small
     a:hover
       :opacity 1
       :-webkit-transition opacity 200ms linear
@@ -60,7 +60,7 @@ a:hover
     :position absolute
     :right 40px
     :top -4px
-    :font-size = !tiny
+    :font-size $tiny
     .ui-datepicker-header
       :border-top-left-radius 0px
       :border-top-right-radius 0px
