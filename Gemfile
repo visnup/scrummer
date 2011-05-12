@@ -12,5 +12,5 @@ end
 
 group :production do
   gem "pg"
-  gem "sass_on_heroku_with_rack"
+  gem 'hassle', :git => 'https://github.com/koppen/hassle.git'
 end

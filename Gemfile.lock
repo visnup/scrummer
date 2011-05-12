@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/koppen/hassle.git
+  revision: bb49cd8b37f5369d08398897caf1b687eaa80458
+  specs:
+    hassle (0.0.1)
+      haml
+      rack
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -74,7 +82,6 @@ GEM
     rest-client (1.6.1)
       mime-types (>= 1.16)
     sass (3.1.1)
-    sass_on_heroku_with_rack (0.0.2)
     sqlite3 (1.3.3)
     sqlite3-ruby (1.3.3)
       sqlite3 (>= 1.3.3)
@@ -93,10 +100,10 @@ PLATFORMS
 
 DEPENDENCIES
   haml
+  hassle!
   heroku
   pg
   rails
   sass
-  sass_on_heroku_with_rack
   sqlite3-ruby
   thin
